@@ -10,8 +10,11 @@ class HomeRepositoryImplementation implements HomeRepository {
   Future<HomeModel?> getData(
       {required Function(String message) onError}) async {
     try {
-      final res = await DioHelper.getData(
+      final res = await DioHelper.postData(
         path: homeEndpoint,
+        data: {
+          "category_id": 1,
+        },
       );
       final model = HomeModel.fromJson(res.data);
       if (model.data == null) {
