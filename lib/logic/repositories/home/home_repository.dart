@@ -4,5 +4,5 @@ import 'package:evaluation_project/service_locator.dart';
 abstract class HomeRepository {
   static HomeRepository get() => getIt.get<HomeRepository>();
 
-  Future<HomeModel?> getData({required Function(String? message) onError});
+  Future<HomeModel?> getData({required Function(String message) onError});
 }

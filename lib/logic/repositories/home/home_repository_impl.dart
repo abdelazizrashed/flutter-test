@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class HomeRepositoryImplementation implements HomeRepository {
   @override
   Future<HomeModel?> getData(
-      {required Function(String? message) onError}) async {
+      {required Function(String message) onError}) async {
     try {
       final res = await DioHelper.getData(
         path: homeEndpoint,
