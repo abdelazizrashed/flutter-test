@@ -80,7 +80,7 @@ class HomeDataModel extends Equatable {
       id: map['id'] as int,
       name: map['name'] as String,
       product: List<HomeProductModel>.from(
-        (map['product'] as List<HomeProductModel>).map<HomeProductModel>(
+        (map['product'] as List).map<HomeProductModel>(
           (x) => HomeProductModel.fromJson(x as Map<String, dynamic>),
         ),
       ),

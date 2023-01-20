@@ -1,8 +1,11 @@
 import 'package:evaluation_project/logic/bloc/home/home_bloc.dart';
 import 'package:evaluation_project/ui/screens/home/widgets/home_product_widget.dart';
+import 'package:evaluation_project/ui/screens/product/product_screen.dart';
 import 'package:evaluation_project/ui/widgets/custom_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "/";
@@ -17,6 +20,16 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc.get(),
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Awesome Store"),
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(15),
+            ),
+          ),
+        ),
+        drawer: const CustomDrawer(),
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is HomeLoading) {
@@ -55,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                   return HomeProductWidget(
                     product: product,
                     onTap: (productId) {
-                      //TODO: Implement this
+                      ProductScreen.navigate(context, productId);
                     },
                   );
                 },

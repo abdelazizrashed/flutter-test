@@ -1,23 +1,24 @@
 import 'package:dio/dio.dart';
-import 'package:evaluation_project/domain/models/home/home_model.dart';
+import 'package:evaluation_project/domain/models/product/product_model.dart';
 import 'package:evaluation_project/domain/remote/dio.dart';
 import 'package:evaluation_project/domain/remote/endpoints.dart';
-import 'package:evaluation_project/logic/repositories/home/home_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:evaluation_project/logic/repositories/product/product_repository.dart';
+import 'package:flutter/foundation.dart';
 
-class HomeRepositoryImplementation implements HomeRepository {
+class ProductRepositoryImplementation implements ProductRepository {
   @override
-  Future<HomeModel?> getData({
-    required Function(String message) onError,
+  Future<ProductModel?> getProduct(
+    int id, {
+    required Function(String meeeage) onError,
   }) async {
     try {
       final res = await DioHelper.postData(
-        path: homeEndpoint,
+        path: productEndpoint,
         data: {
-          "category_id": 1,
+          "product_id": id,
         },
       );
-      final model = HomeModel.fromJson(res.data);
+      final model = ProductModel.fromJson(res.data);
       if (model.data == null) {
         onError.call(model.message);
         return null;
