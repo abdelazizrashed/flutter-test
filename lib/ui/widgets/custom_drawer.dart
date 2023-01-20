@@ -15,46 +15,55 @@ class CustomDrawer extends StatelessWidget {
       elevation: 0,
       child: Column(
         children: [
-          _buildProfileInfor(context),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 10,
+          if (getUserToken() == null || getUserToken()!.isEmpty)
+            SizedBox(
+              height: MediaQuery.of(context).padding.top,
             ),
-            child: Column(
-              children: [
-                DrawerButton(
-                  name: "Home",
-                  icon: Icons.home,
-                  onTap: () => HomeScreen.navigate(context),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                if (getUserToken() == null && getUserToken()!.isEmpty)
-                  DrawerButton(
-                    name: "Login",
-                    icon: Icons.login,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      //TODO: Implement this
-                    },
-                  ),
-                const SizedBox(
-                  height: 10,
-                ),
-                if (getUserToken() != null && getUserToken()!.isNotEmpty)
-                  DrawerButton(
-                    name: "Logout",
-                    icon: Icons.logout,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      //TODO: Implement this
-                    },
-                  ),
-              ],
+          if (getUserToken() != null && getUserToken()!.isNotEmpty)
+            _buildProfileInfor(context),
+          _buildButtons(context)
+        ],
+      ),
+    );
+  }
+
+  Padding _buildButtons(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      child: Column(
+        children: [
+          DrawerButton(
+            name: "Home",
+            icon: Icons.home,
+            onTap: () => HomeScreen.navigate(context),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          if (getUserToken() == null || getUserToken()!.isEmpty)
+            DrawerButton(
+              name: "Login",
+              icon: Icons.login,
+              onTap: () {
+                Navigator.of(context).pop();
+                //TODO: Implement this
+              },
             ),
-          )
+          const SizedBox(
+            height: 10,
+          ),
+          if (getUserToken() != null && getUserToken()!.isNotEmpty)
+            DrawerButton(
+              name: "Logout",
+              icon: Icons.logout,
+              onTap: () {
+                Navigator.of(context).pop();
+                //TODO: Implement this
+              },
+            ),
         ],
       ),
     );

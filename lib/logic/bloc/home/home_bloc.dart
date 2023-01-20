@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:evaluation_project/domain/models/home/home_model.dart';
 import 'package:evaluation_project/logic/repositories/home/home_repository.dart';
-import 'package:evaluation_project/service_locator.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -12,7 +11,8 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  static HomeBloc get() => getIt.get<HomeBloc>();
+  static HomeBloc of(BuildContext context) =>
+      BlocProvider.of<HomeBloc>(context);
 
   final HomeRepository _repository;
   HomeBloc({required HomeRepository repository})

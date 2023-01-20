@@ -10,10 +10,13 @@ class AppRouter {
           builder: (context) => const HomeScreen(),
         );
       case ProductScreen.routeName:
-        final id = settings.arguments as int;
+        final args = settings.arguments as List;
+        final id = args[0];
+        final name = args[1];
         return MaterialPageRoute(
           builder: (context) => ProductScreen(
             id: id,
+            name: name,
           ),
         );
       default:

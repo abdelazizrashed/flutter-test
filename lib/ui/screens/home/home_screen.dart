@@ -1,4 +1,5 @@
 import 'package:evaluation_project/logic/bloc/home/home_bloc.dart';
+import 'package:evaluation_project/logic/bloc/product/product_bloc.dart';
 import 'package:evaluation_project/ui/screens/home/widgets/home_product_widget.dart';
 import 'package:evaluation_project/ui/screens/product/product_screen.dart';
 import 'package:evaluation_project/ui/widgets/custom_error_widget.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc.get(),
+      create: (context) => HomeBloc.of(context),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Awesome Store"),
@@ -41,7 +42,7 @@ class HomeScreen extends StatelessWidget {
               return CustomErrorWidget(
                 message: state.message,
                 onRefresh: () {
-                  HomeBloc.get().add(GetHomeDataEvent());
+                  HomeBloc.of(context).add(GetHomeDataEvent());
                 },
               );
             }
@@ -49,7 +50,7 @@ class HomeScreen extends StatelessWidget {
               return CustomErrorWidget(
                 message: state.message,
                 onRefresh: () {
-                  HomeBloc.get().add(GetHomeDataEvent());
+                  HomeBloc.of(context).add(GetHomeDataEvent());
                 },
               );
             }
@@ -67,8 +68,13 @@ class HomeScreen extends StatelessWidget {
                   final product = products[index];
                   return HomeProductWidget(
                     product: product,
-                    onTap: (productId) {
-                      ProductScreen.navigate(context, productId);
+                    onTap: () {
+                      ProductBloc.of(context).add(GetProductEvent(product.id));
+                      ProductScreen.navigate(
+                        context,
+                        product.id,
+                        product.name,
+                      );
                     },
                   );
                 },
@@ -78,7 +84,7 @@ class HomeScreen extends StatelessWidget {
             return CustomErrorWidget(
               message: "Something went wrong!",
               onRefresh: () {
-                HomeBloc.get().add(GetHomeDataEvent());
+                HomeBloc.of(context).add(GetHomeDataEvent());
               },
             );
           },

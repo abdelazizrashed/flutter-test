@@ -4,8 +4,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:evaluation_project/domain/models/product/product_model.dart';
 import 'package:evaluation_project/logic/repositories/product/product_repository.dart';
-import 'package:evaluation_project/service_locator.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -13,7 +12,8 @@ part 'product_event.dart';
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  static ProductBloc get() => getIt.get<ProductBloc>();
+  static ProductBloc of(BuildContext context) =>
+      BlocProvider.of<ProductBloc>(context);
 
   final ProductRepository _repository;
   ProductBloc({required ProductRepository repository})

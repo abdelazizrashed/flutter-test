@@ -2,7 +2,7 @@ import 'package:evaluation_project/domain/models/home/home_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeProductWidget extends StatelessWidget {
-  final Function(int productId) onTap;
+  final Function() onTap;
   const HomeProductWidget({
     Key? key,
     required this.product,
@@ -14,7 +14,7 @@ class HomeProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap(product.id),
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
