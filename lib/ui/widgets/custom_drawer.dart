@@ -1,9 +1,12 @@
 // import 'package:evaluation_project/domain/models/local/shared_prefs.dart';
-import 'package:evaluation_project/domain/local/shared_prefs.dart';
+// import 'package:evaluation_project/domain/local/shared_prefs.dart';
+import 'package:evaluation_project/logic/bloc/auth/auth_bloc.dart';
+import 'package:evaluation_project/logic/repositories/auth/auth_repository.dart';
 import 'package:evaluation_project/ui/screens/home/home_screen.dart';
 import 'package:evaluation_project/ui/screens/login/login_screen.dart';
 import 'package:evaluation_project/ui/widgets/drawer_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -16,12 +19,11 @@ class CustomDrawer extends StatelessWidget {
       elevation: 0,
       child: Column(
         children: [
-          if (getUserToken() == null || getUserToken()!.isEmpty)
+          if (!AuthRepository.get().isLoggedIn())
             SizedBox(
               height: MediaQuery.of(context).padding.top,
             ),
-          if (getUserToken() != null && getUserToken()!.isNotEmpty)
-            _buildProfileInfor(context),
+          if (AuthRepository.get().isLoggedIn()) _buildProfileInfor(context),
           _buildButtons(context)
         ],
       ),
@@ -44,7 +46,7 @@ class CustomDrawer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          if (getUserToken() == null || getUserToken()!.isEmpty)
+          if (!AuthRepository.get().isLoggedIn())
             DrawerButton(
               name: "Login",
               icon: Icons.login,
@@ -56,14 +58,21 @@ class CustomDrawer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          if (getUserToken() != null && getUserToken()!.isNotEmpty)
-            DrawerButton(
-              name: "Logout",
-              icon: Icons.logout,
-              onTap: () {
-                Navigator.of(context).pop();
-                //TODO: Implement this
+          if (AuthRepository.get().isLoggedIn())
+            BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is LogoutSuccess) {
+                  LoginScreen.navigate(context);
+                }
               },
+              child: DrawerButton(
+                name: "Logout",
+                icon: Icons.logout,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  AuthBloc.of(context).add(LogoutEvent());
+                },
+              ),
             ),
         ],
       ),

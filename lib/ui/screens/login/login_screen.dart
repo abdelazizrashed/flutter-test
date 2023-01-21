@@ -1,8 +1,11 @@
+import 'package:evaluation_project/logic/bloc/auth/auth_bloc.dart';
 import 'package:evaluation_project/ui/screens/home/home_screen.dart';
 import 'package:evaluation_project/ui/screens/register/register_screen.dart';
 import 'package:evaluation_project/ui/widgets/custom_button.dart';
 import 'package:evaluation_project/ui/widgets/styled_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,43 +35,70 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildInputForm(),
-              Row(
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthLoaded) {
+              Fluttertoast.showToast(msg: state.model.message);
+              HomeScreen.navigate(context);
+            }
+            if (state is AuthError) {
+              Fluttertoast.showToast(msg: state.message);
+            }
+            if (state is AuthNetworkConnectionError) {
+              Fluttertoast.showToast(msg: state.message);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account?"),
-                  TextButton(
-                    onPressed: () {
-                      RegisterScreen.navigate(context);
+                  _buildInputForm(),
+                  Row(
+                    children: [
+                      const Text("Don't have an account?"),
+                      TextButton(
+                        onPressed: () {
+                          RegisterScreen.navigate(context);
+                        },
+                        child: const Text("Register an account"),
+                      ),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: () {
+                        HomeScreen.navigate(context);
+                      },
+                      child: const Text("Enter as a guest"),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  CustomButton(
+                    title: "Login",
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        AuthBloc.of(context).add(
+                          LoginEvent(
+                            phoneController.text,
+                            passController.text,
+                          ),
+                        );
+                      }
                     },
-                    child: const Text("Register an account"),
                   ),
                 ],
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                  onPressed: () {
-                    HomeScreen.navigate(context);
-                  },
-                  child: const Text("Enter as a guest"),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              CustomButton(
-                title: "Login",
-                onTap: () {
-                  //TODO: Implement this
-                  if (formKey.currentState!.validate()) {}
-                },
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -81,10 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           StyledTextFormField(
             phoneController: phoneController,
-            label: "Phone number",
+            label: "Email",
             validator: (value) {
               if (value?.isEmpty ?? true) {
-                return "Phone number is required";
+                return "Email is required";
               }
               return null;
             },

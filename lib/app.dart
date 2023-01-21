@@ -1,6 +1,8 @@
+import 'package:evaluation_project/logic/bloc/auth/auth_bloc.dart';
 import 'package:evaluation_project/logic/bloc/home/home_bloc.dart';
 import 'package:evaluation_project/logic/bloc/product/product_bloc.dart';
 import 'package:evaluation_project/logic/core/app_router.dart';
+import 'package:evaluation_project/logic/repositories/auth/auth_repository.dart';
 import 'package:evaluation_project/logic/repositories/home/home_repository.dart';
 import 'package:evaluation_project/logic/repositories/product/product_repository.dart';
 import 'package:evaluation_project/ui/screens/home/home_screen.dart';
@@ -22,6 +24,11 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (context) => ProductBloc(
             repository: ProductRepository.get(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => AuthBloc(
+            repository: AuthRepository.get(),
           ),
         ),
       ],
