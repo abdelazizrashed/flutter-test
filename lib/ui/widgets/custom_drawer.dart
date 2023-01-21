@@ -1,5 +1,6 @@
 // import 'package:evaluation_project/domain/models/local/shared_prefs.dart';
 // import 'package:evaluation_project/domain/local/shared_prefs.dart';
+import 'package:evaluation_project/domain/local/shared_prefs.dart';
 import 'package:evaluation_project/logic/bloc/auth/auth_bloc.dart';
 import 'package:evaluation_project/logic/repositories/auth/auth_repository.dart';
 import 'package:evaluation_project/ui/screens/home/home_screen.dart';
@@ -95,7 +96,7 @@ class CustomDrawer extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(2000),
             child: Image.network(
-              "",
+              getImage() ?? "",
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   width: 70,
@@ -108,10 +109,10 @@ class CustomDrawer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "Mohamed",
+          Text(
+            getName() ?? "Placeholder",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -119,8 +120,8 @@ class CustomDrawer extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          const Text(
-            "test@test.com",
+          Text(
+            getEmail() ?? "",
             textAlign: TextAlign.center,
           )
         ],

@@ -26,6 +26,12 @@ class AuthRepositoryImpl implements AuthRepository {
         onError.call(model.message);
         return null;
       }
+      saveName(model.data?.name ?? "");
+      saveEmail(model.data?.email ?? "");
+      saveImage(model.data?.image ?? "");
+      saveMobile(model.data?.mobile ?? "");
+      saveUserId(model.data?.id ?? 0);
+      saveUserToken(model.data?.token ?? '');
       return model;
     } catch (e, t) {
       debugPrint(e.toString());
@@ -64,6 +70,11 @@ class AuthRepositoryImpl implements AuthRepository {
         onError.call(model.message);
         return null;
       }
+      saveEmail(model.data?.email ?? "");
+      saveImage(model.data?.image ?? "");
+      saveMobile(model.data?.mobile ?? "");
+      saveUserId(model.data?.id ?? 0);
+      saveUserToken(model.data?.token ?? '');
       return model;
     } catch (e, t) {
       debugPrint(e.toString());
