@@ -1,6 +1,7 @@
 // import 'package:evaluation_project/domain/models/local/shared_prefs.dart';
 import 'package:evaluation_project/domain/local/shared_prefs.dart';
 import 'package:evaluation_project/ui/screens/home/home_screen.dart';
+import 'package:evaluation_project/ui/screens/login/login_screen.dart';
 import 'package:evaluation_project/ui/widgets/drawer_button.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.login,
               onTap: () {
                 Navigator.of(context).pop();
-                //TODO: Implement this
+                LoginScreen.navigate(context);
               },
             ),
           const SizedBox(
